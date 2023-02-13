@@ -21,4 +21,4 @@ include_directories(/lib/error)
 add_executable(lox_test tests/lox_main_test.cpp)
 target_link_libraries(lox_test PRIVATE Catch2::Catch2WithMain)
 
-add_executable(interpreter main.cpp lib/scanner.h lib/error/report.h)
+add_executable(interpreter main.cpp lib/parser/scanner.h lib/error/report.h lib/parser/tokens.h)

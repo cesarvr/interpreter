@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "lib/scanner.h"
+#include "lib/parser/scanner.h"
 
 using namespace std;
 

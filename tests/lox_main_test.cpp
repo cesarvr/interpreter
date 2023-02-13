@@ -3,7 +3,7 @@
 //
 
 #include <catch2/catch_test_macros.hpp>
-#include "../lib/scanner.h"
+#include "../lib/parser/scanner.h"
 #include "catch2/matchers/catch_matchers_vector.hpp"
 
 unsigned int Factorial( unsigned int number ) {
@@ -61,6 +61,15 @@ TEST_CASE("Testing Scanner multiple operators !*+-/=<> with comments input"){
 
     auto t2 = tokens[1];
     REQUIRE( t2.getLexeme() == "*" );
+
+    for(auto tk : tokens){
+
+        if(tk.getType() == TokenType::_EOF)
+            break;
+
+        auto pos = code.find_first_of(tk.getLexeme());
+        REQUIRE( pos != std::string::npos );
+    }
 
     REQUIRE( tokens.size() == 11 );
 }
