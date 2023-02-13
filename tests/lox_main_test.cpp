@@ -27,3 +27,40 @@ TEST_CASE("Testing tokenizer"){
     auto split3 = tokenizer("hello,world", ',');
     REQUIRE_THAT(split3, Catch::Matchers::UnorderedEquals(std::vector<std::string>{ "hello", "world" }));
 }
+
+TEST_CASE("Testing Scanner simple ()() input"){
+    std::string code = "()()";
+    Scanner scanner{code};
+    auto tokens = scanner.scanTokens();
+
+    REQUIRE( tokens.size() == 5 ); // () () + EOF == 5
+
+    auto t1 = tokens[0];
+    REQUIRE( t1.getLexeme() == "(" );
+
+    auto t2 = tokens[1];
+    REQUIRE( t2.getLexeme() == ")" );
+
+    auto t3 = tokens[2];
+    REQUIRE( t3.getLexeme() == "(" );
+
+    auto t4 = tokens[3];
+    REQUIRE( t4.getLexeme() == ")" );
+
+    auto t5 = tokens[4];
+    REQUIRE( t5.getLexeme() == "" );
+}
+
+TEST_CASE("Testing Scanner multiple operators !*+-/=<> with comments input"){
+    std::string code = "!*+-/=<> <= == // operators";
+    Scanner scanner{code};
+    auto tokens = scanner.scanTokens();
+
+    auto t1 = tokens[0];
+    REQUIRE( t1.getLexeme() == "!" );
+
+    auto t2 = tokens[1];
+    REQUIRE( t2.getLexeme() == "*" );
+
+    REQUIRE( tokens.size() == 11 );
+}

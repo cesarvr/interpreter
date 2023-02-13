@@ -50,8 +50,11 @@ public:
         ss << "type" << " " << lexeme << " " << "literal";
         return ss.str();
     }
-};
 
+    std::string getLexeme(){
+        return lexeme;
+    }
+};
 
 class Scanner {
 private:
@@ -75,7 +78,7 @@ public:
     }
 
     void addToken(TokenType type, Object literal){
-        std::string text = source.substr(start, current);
+        std::string text = source.substr(start, (current-start));
         tokens.push_back(Token{type, text, literal, line});
     }
 
@@ -117,7 +120,7 @@ public:
                 break;
             case '>':
                 addToken(match('=') ? GREATER_EQUAL : GREATER);
-
+                break;
             case '/':
                 if (match('/')) {
                     // A comment goes until the end of the line.
@@ -132,6 +135,10 @@ public:
             case '\r':
             case '\t':
                 // Ignore whitespace.
+                break;
+
+            case '\n':
+                line++;
                 break;
 
             default:
