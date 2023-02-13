@@ -26,6 +26,4 @@ TEST_CASE("Testing tokenizer"){
 
     auto split3 = tokenizer("hello,world", ',');
     REQUIRE_THAT(split3, Catch::Matchers::UnorderedEquals(std::vector<std::string>{ "hello", "world" }));
-
-
 }
