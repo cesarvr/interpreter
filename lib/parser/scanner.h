@@ -53,6 +53,44 @@ public:
         return source[current];
     }
 
+    void read_string() {
+        while(peek() != '\"' && !isAtEnd()){
+            if(peek() == '\n') line++;
+            advance();
+        }
+
+        if(isAtEnd()) {
+            Report::error(line, "Unterminated string.");
+            return;
+        }
+
+        advance();
+
+        //removing quotes and fetching the string.
+        std::string str_value = source.substr(start+1, (current-(start+1))-1);
+
+        addToken(STRING, str_value);
+    }
+
+    bool isDigit(char chr) {
+        return chr >= '0' && chr <= '9';
+    }
+
+    char peekNext() {
+        if(source.size() <= current + 1) return '\0';
+        return source[current + 1];
+    }
+
+    void number() {
+        while (isDigit(peek())) advance();
+        if (peek() == '.' && isDigit(peekNext())) {
+            // Consume the "."
+            advance();
+
+            while (isDigit(peek())) advance();
+        }
+    }
+
     void scanToken() {
         auto chr = advance();
 
@@ -98,9 +136,16 @@ public:
             case '\n':
                 line++;
                 break;
+            case '\"':
+                read_string();
+                break;
 
             default:
-               Report::error(line, "Unexpected character.");
+                if(isDigit(chr)){
+                    number();
+                }else {
+                    Report::error(line, "Unexpected character.");
+                }
                break;
         }
     }

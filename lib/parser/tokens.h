@@ -20,7 +20,16 @@ enum TokenType {
     PRINT, RETURN, SUPER, THIS, TRUE, VAR, WHILE, _EOF,
 };
 
-class Object{};
+class Object{
+    std::string container;
+public:
+    Object(){}
+    Object(std::string _container): container(_container) {}
+
+    std::string getString(){
+        return container;
+    }
+};
 
 class Token {
 private:
@@ -49,6 +58,10 @@ public:
 
     TokenType getType(){
         return type;
+    }
+
+    Object getLiteral(){
+        return literal;
     }
 };
 

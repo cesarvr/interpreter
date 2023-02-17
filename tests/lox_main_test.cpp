@@ -73,3 +73,15 @@ TEST_CASE("Testing Scanner multiple operators !*+-/=<> with comments input"){
 
     REQUIRE( tokens.size() == 11 );
 }
+
+TEST_CASE("Testing Scanner parsing string variables") {
+    std::string code = "\"hello world\"; // operators";
+    Scanner scanner{code};
+    auto tokens = scanner.scanTokens();
+
+    for(auto token : tokens){
+        if(token.getType() == STRING){
+            REQUIRE( token.getLiteral().getString() == "hello world" );
+        }
+    }
+}
