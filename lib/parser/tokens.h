@@ -21,13 +21,20 @@ enum TokenType {
 };
 
 class Object{
-    std::string container;
+    std::string str;
+    double number;
+
 public:
     Object(){}
-    Object(std::string _container): container(_container) {}
+    Object(std::string _str): str(_str) {}
+    Object(double num): number(num){}
 
     std::string getString(){
-        return container;
+        return str;
+    }
+
+    double getDouble(){
+        return number;
     }
 };
 

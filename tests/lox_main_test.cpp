@@ -6,16 +6,12 @@
 #include "../lib/parser/scanner.h"
 #include "catch2/matchers/catch_matchers_vector.hpp"
 
-unsigned int Factorial( unsigned int number ) {
-    return number <= 1 ? number : Factorial(number-1)*number;
+std::vector<Token> run_scanner(std::string code) {
+    Scanner scanner{code};
+    auto tokens = scanner.scanTokens();
+    return tokens;
 }
 
-TEST_CASE( "Factorials are computed", "[factorial]" ) {
-    REQUIRE( Factorial(1) == 1 );
-    REQUIRE( Factorial(2) == 2 );
-    REQUIRE( Factorial(3) == 6 );
-    REQUIRE( Factorial(10) == 3628800 );
-}
 
 TEST_CASE("Testing tokenizer"){
     auto split = tokenizer("a b c");
@@ -53,8 +49,7 @@ TEST_CASE("Testing Scanner simple ()() input"){
 
 TEST_CASE("Testing Scanner multiple operators !*+-/=<> with comments input"){
     std::string code = "!*+-/=<> <= == // operators";
-    Scanner scanner{code};
-    auto tokens = scanner.scanTokens();
+    auto tokens = run_scanner(code);
 
     auto t1 = tokens[0];
     REQUIRE( t1.getLexeme() == "!" );
@@ -74,14 +69,29 @@ TEST_CASE("Testing Scanner multiple operators !*+-/=<> with comments input"){
     REQUIRE( tokens.size() == 11 );
 }
 
-TEST_CASE("Testing Scanner parsing string variables") {
+TEST_CASE("Testing Scanner parsing string values") {
     std::string code = "\"hello world\"; // operators";
-    Scanner scanner{code};
-    auto tokens = scanner.scanTokens();
+    auto tokens = run_scanner(code);
 
     for(auto token : tokens){
         if(token.getType() == STRING){
             REQUIRE( token.getLiteral().getString() == "hello world" );
         }
     }
+}
+
+TEST_CASE("Testing Scanner parsing integers values") {
+    std::string code = "4 //A number";
+    auto tokens = run_scanner(code);
+
+    auto numberToken = tokens[0];
+    REQUIRE( numberToken.getLiteral().getDouble() == 4 );
+}
+
+TEST_CASE("Testing Scanner parsing float values") {
+    std::string code = "14.4 //A number";
+    auto tokens = run_scanner(code);
+
+    auto numberToken = tokens[0];
+    REQUIRE( numberToken.getLiteral().getDouble() == 14.4 );
 }

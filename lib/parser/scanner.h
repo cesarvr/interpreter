@@ -89,6 +89,9 @@ public:
 
             while (isDigit(peek())) advance();
         }
+
+        std::string number = source.substr(start, (current-start));
+        addToken(NUMBER, Object{std::stod(number)});
     }
 
     void scanToken() {
