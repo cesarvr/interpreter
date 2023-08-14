@@ -6,24 +6,21 @@ Just learning about langauge theory and implementation by following the steps of
 
 ## Tests
 
-In order to make this easier I just following a test driven approach that can be followed [here](https://github.com/cesarvr/interpreter/tree/main/tests). To run them just get `cmake` using: 
+In order to make this easier I just following a test driven approach [here](https://github.com/cesarvr/interpreter/tree/main/tests). 
+
+To build the project and run the test first get `cmake` using: 
 
 ```sh 
  brew install cmake
 
 ```
 
-And run: 
+And then run ``cmake`` and ``make``: 
 
 ```sh
 
 cmake . # On the root folder.
-```
-
-Then run make:
-
-```sh 
-make   
+make 
 ```
 
 I'm using the [catch2 test framwork](https://github.com/catchorg/Catch2) to generate a test binary that you can run using: 
