@@ -89,7 +89,7 @@ TEST_CASE("Testing Scanner parsing integers values") {
 }
 
 TEST_CASE("Testing Scanner parsing float values") {
-    std::string code = "14.4 //A number";
+    std::string code = "14.4 //A float number";
     auto tokens = run_scanner(code);
 
     auto numberToken = tokens[0];
