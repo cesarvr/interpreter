@@ -1,6 +1,6 @@
-# Writing A Simple Interpreter In C++
+# Writing A Simple Lox Interpreter In C++
 
-Just learning about langauge theory and implementation by following the steps of the ["Crafting Interpreters"](https://craftinginterpreters.com/) book. 
+Just learning about programming language theory and implementation by following the steps of the ["Crafting Interpreters"](https://craftinginterpreters.com/) book. 
 
 
 
