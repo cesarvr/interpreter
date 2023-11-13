@@ -47,6 +47,26 @@ TEST_CASE("Testing Scanner simple ()() input"){
     REQUIRE( t5.getLexeme() == "" );
 }
 
+TEST_CASE("No Tokens") { 
+    auto tokens = run_scanner("");
+    REQUIRE(tokens[0].getType() == _EOF);
+}
+
+TEST_CASE("Testing inline /**/ comments") {
+    std::string code = "/**/";
+    auto tokens = run_scanner(code);
+    REQUIRE(tokens[0].getType() == _EOF);
+}
+
+TEST_CASE("Testing multiline comments") {
+    std::string code = "/* hello \n* world \n**/";
+    Scanner scanner{code};
+    auto tokens = scanner.scanTokens();
+    
+    REQUIRE(tokens[0].getType() == _EOF);
+    REQUIRE(scanner.getCurrentLine() == 3);
+}
+
 TEST_CASE("Testing Scanner multiple operators !*+-/=<> with comments input"){
     std::string code = "!*+-/=<> <= == // operators";
     auto tokens = run_scanner(code);
@@ -81,7 +101,7 @@ TEST_CASE("Testing Scanner parsing string values") {
 }
 
 TEST_CASE("Testing Scanner parsing integers values") {
-    std::string code = "4 //A number";
+    std::string code = "/* Reading an Integer */ 4";
     auto tokens = run_scanner(code);
 
     auto numberToken = tokens[0];
@@ -89,9 +109,25 @@ TEST_CASE("Testing Scanner parsing integers values") {
 }
 
 TEST_CASE("Testing Scanner parsing float values") {
-    std::string code = "14.4 //A float number";
+    std::string code = "14.4 /* Float */";
     auto tokens = run_scanner(code);
 
     auto numberToken = tokens[0];
     REQUIRE( numberToken.getLiteral().getDouble() == 14.4 );
 }
+
+TEST_CASE("Testing Scanner parsing logic OR") {
+    std::string code = "or //OR operator";
+    auto or_tokens = run_scanner(code);
+
+    auto orToken = or_tokens[0];
+    REQUIRE( orToken.getType() == OR );
+
+    std::string code2 = "\"or\" //Checking that or inside string are parsed correctly.";
+    auto tokens = run_scanner(code2);
+
+    auto orStrToken = tokens[0];
+    REQUIRE( orStrToken.getLiteral().getString() == "or" );
+    REQUIRE( orStrToken.getType() != OR );
+}
+

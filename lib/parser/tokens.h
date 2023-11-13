@@ -6,6 +6,8 @@
 #define INTERPRETER_TOKENS_H
 #include <iostream>
 
+const bool DEBUG = false;
+
 enum TokenType {
     LEFT_PAREN, RIGHT_PAREN, LEFT_BRACE, RIGHT_BRACE,
     COMMA, DOT, MINUS, PLUS, SEMICOLON, SLASH, STAR, BANG,
@@ -55,7 +57,6 @@ public:
 
     std::string toString(){
         std::stringstream ss;
-        ss << "type" << " " << lexeme << " " << "literal";
         return ss.str();
     }
 

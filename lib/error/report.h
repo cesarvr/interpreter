@@ -10,7 +10,7 @@
 class Report{
 private:
     static bool report(int line, std::string where, std::string msg){
-        std::cout << "[line " << line << "] Error" << where << ": " + msg << std::endl;
+        std::cout << "[line " << line << "] Error " << where << ": " + msg << std::endl;
         return true;
     }
 public:
